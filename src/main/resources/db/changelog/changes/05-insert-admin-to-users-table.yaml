@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-admin-to-users-table
+      author: Oleh Shvets
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: email
+                  value: "admin@gmail.com"
+              - column:
+                  name: first_name
+                  value: "Oleh"
+              - column:
+                  name: last_name
+                  value: "Shvets"
+              - column:
+                  name: password
+                  value: "$2a$10$7KZgyGntZ.SEqQc2G2x21Oy3NGI6rCJ8qQ31DsFH9w/agzclIv0LG"
+              - column:
+                  name: is_deleted
+                  value: "0"

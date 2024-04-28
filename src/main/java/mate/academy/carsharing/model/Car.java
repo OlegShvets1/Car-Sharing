@@ -45,8 +45,7 @@ public class Car {
     private Integer inventory;
 
     @Column(name = "daily_fee", nullable = false)
-    @Min(0)
-    private BigDecimal dailyFee;
+    private BigDecimal dailyFee = BigDecimal.ZERO;
 
     @Column (name = "is_deleted", nullable = false)
     private boolean isDeleted = false;

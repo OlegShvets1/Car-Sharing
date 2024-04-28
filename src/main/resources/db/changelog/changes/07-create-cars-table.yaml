@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: daily_fee
-                  type: BIGINT
+                  type: decimal
                   constraints:
                     nullable: false
               - column:

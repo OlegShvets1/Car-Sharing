@@ -1,7 +1,17 @@
 databaseChangeLog:
+
   - include:
-      file: db/changelog/changes/01-create-cars-table.yaml
+      file: db/changelog/changes/01-create-roles-table.yaml
   - include:
-      file: db/changelog/changes/02-create-roles-table.yaml
+      file: db/changelog/changes/02-insert-roles-into-roles-table.yaml
   - include:
       file: db/changelog/changes/03-create-users-table.yaml
+  - include:
+      file: db/changelog/changes/04-create-users_roles-table.yaml
+  - include:
+      file: db/changelog/changes/05-insert-admin-to-users-table.yaml
+  - include:
+      file: db/changelog/changes/06-insert-role_to_admin-into-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/07-create-cars-table.yaml
+
