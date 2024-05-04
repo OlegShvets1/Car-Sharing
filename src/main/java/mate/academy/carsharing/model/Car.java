@@ -56,14 +56,13 @@ public class Car {
         HATCHBACK,
         UNIVERSAL;
 
-        public static Type convertFromString(String value) {
+        public static Type fromString(String value) {
             for (Type type : Type.values()) {
                 if (type.name().equalsIgnoreCase(value)) {
                     return type;
                 }
             }
-            throw new IllegalArgumentException(value + "- invalid list value."
-            + "Field value should be one of: SEDAN, SUV, HATCHBACK, UNIVERSAL");
+            throw new IllegalArgumentException("Unknown enum value: " + value);
         }
     }
 }

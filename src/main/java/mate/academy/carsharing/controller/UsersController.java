@@ -47,7 +47,7 @@ public class UsersController {
     }
 
     @PutMapping("/{id}/role")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Operation(summary = "Update a user's role",
             description = "Endpoint for updating the user's role."
                     + " Allowed for managers only")
@@ -58,7 +58,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a user",
             description = "Endpoint for deleting the user"

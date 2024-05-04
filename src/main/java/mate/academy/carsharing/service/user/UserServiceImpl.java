@@ -2,7 +2,6 @@ package mate.academy.carsharing.service.user;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
-import java.util.Set;
 import javax.management.relation.RoleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mate.academy.carsharing.dto.user.UserRegistrationRequestDto;
@@ -13,8 +12,8 @@ import mate.academy.carsharing.exception.RegistrationException;
 import mate.academy.carsharing.mapper.UserMapper;
 import mate.academy.carsharing.model.Role;
 import mate.academy.carsharing.model.User;
-import mate.academy.carsharing.repository.RoleRepository;
-import mate.academy.carsharing.repository.UserRepository;
+import mate.academy.carsharing.repository.role.RoleRepository;
+import mate.academy.carsharing.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +30,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto register(UserRegistrationRequestDto requestDto) {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
-            throw new RegistrationException("User with email: "
+            throw new RegistrationException("User with email- "
                     + requestDto.getEmail() + " already exist");
         }
-
         Optional<Role> customerRoleOptional = roleRepository.findByName(Role.RoleName.CUSTOMER);
         if (customerRoleOptional.isPresent()) {
             Role customerRole = customerRoleOptional.get();
@@ -46,20 +44,21 @@ public class UserServiceImpl implements UserService {
         } else {
             try {
                 throw new RoleNotFoundException("Role 'CUSTOMER' not found");
-            } catch (RoleNotFoundException e) {
+            }
+            catch (RoleNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-
+    @Transactional
     @Override
     public UserUpdatedRolesResponseDto updateUserRole(Long id, String roleName) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                "User with passed id doesn't exist, id: " + id));
-        Optional<Role> customerRole = roleRepository.findByName(Role.RoleName.CUSTOMER);
-        Optional<Role> managerRole = roleRepository.findByName(Role.RoleName.MANAGER);
-        if (customerRole.isPresent() && managerRole.isPresent()) {
-            user.setRoles(Set.of(customerRole.get(), managerRole.get()));
+                "User with passed id - " + id + " doesn't exist." ));
+        Optional<Role> newRole = roleRepository.findByName(Role.RoleName.MANAGER);
+          if (newRole.isPresent()){
+            user.addRole(newRole.get());
+            user = userRepository.save(user);
         } else {
             try {
                 throw new RoleNotFoundException("One or more roles not found");
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getProfileInfo(User user) {
-        return userMapper.toResponseDto(user);
+        return userMapper.mapToDto(user);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         }
         userRepository.save(user);
-        return userMapper.toResponseDto(user);
+        return userMapper.mapToDto(user);
     }
 
     @Override
