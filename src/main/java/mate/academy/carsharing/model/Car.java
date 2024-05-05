@@ -45,8 +45,7 @@ public class Car {
     private Integer inventory;
 
     @Column(name = "daily_fee", nullable = false)
-    @Min(0)
-    private BigDecimal dailyFee;
+    private BigDecimal dailyFee = BigDecimal.ZERO;
 
     @Column (name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
@@ -57,14 +56,13 @@ public class Car {
         HATCHBACK,
         UNIVERSAL;
 
-        public static Type convertFromString(String value) {
+        public static Type fromString(String value) {
             for (Type type : Type.values()) {
                 if (type.name().equalsIgnoreCase(value)) {
                     return type;
                 }
             }
-            throw new IllegalArgumentException(value + "- invalid list value."
-            + "Field value should be one of: SEDAN, SUV, HATCHBACK, UNIVERSAL");
+            throw new IllegalArgumentException("Unknown enum value: " + value);
         }
     }
 }

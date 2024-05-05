@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles-into-roles-table
+      author: Oleh Shvets
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  { name: name, value: "MANAGER" }
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  { name: name, value: "CUSTOMER" }

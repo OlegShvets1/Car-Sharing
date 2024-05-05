@@ -1,7 +1,7 @@
 package mate.academy.carsharing.security;
 
 import lombok.RequiredArgsConstructor;
-import mate.academy.carsharing.repository.UserRepository;
+import mate.academy.carsharing.repository.user.UserRepository;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

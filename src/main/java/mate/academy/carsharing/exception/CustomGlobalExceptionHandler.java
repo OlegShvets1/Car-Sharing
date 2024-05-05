@@ -1,5 +1,6 @@
 package mate.academy.carsharing.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -30,7 +32,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST);
-        List<String> errors = ex.getBindingResult().getAllErrors().stream()
+        List<String> errors = ex.getBindingResult()
+                .getAllErrors()
+                .stream()
                 .map(this::getErrorMessage)
                 .toList();
         body.put("errors", errors);
@@ -44,5 +48,34 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             return field + " " + message;
         }
         return e.getDefaultMessage();
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    protected ResponseEntity<Object> handleRegistrationException(
+            RegistrationException ex, WebRequest request) {
+        Map<String, Object> body = getBody(ex, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleUserNotFoundException(
+            EntityNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = getBody(ex, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<Object> handleIllegalArgumentException(
+            IllegalArgumentException ex, WebRequest request) {
+        Map<String, Object> body = getBody(ex, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    private Map<String, Object> getBody(Exception ex, HttpStatus status) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", status);
+        body.put("message", ex.getMessage());
+        return body;
     }
 }

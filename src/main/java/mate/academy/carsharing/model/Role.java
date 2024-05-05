@@ -8,10 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "roles")
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
@@ -19,13 +23,9 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, columnDefinition = "varchar")
+    @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    private RoleName name = RoleName.CUSTOMER;
-
-    public Role(RoleName name) {
-        this.name = name;
-    }
+    private RoleName name;
 
     @Override
     public String getAuthority() {
@@ -34,7 +34,12 @@ public class Role implements GrantedAuthority {
 
     public enum RoleName {
         MANAGER,
-        CUSTOMER
+        CUSTOMER;
+
+        @Override
+        public String toString() {
+            return name();
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package mate.academy.carsharing.repository;
+package mate.academy.carsharing.repository.car;
 
 import java.util.List;
 import mate.academy.carsharing.model.Car;
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long>,
         JpaSpecificationExecutor<Car> {
-    @Query("FROM Car car WHERE car.inventory > :minInventory")
+    @Query("FROM Car car WHERE car.inventory > 0")
     List<Car> findAllAvailable(Pageable pageable);
 }
