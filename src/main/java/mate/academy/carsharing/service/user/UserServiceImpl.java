@@ -44,19 +44,19 @@ public class UserServiceImpl implements UserService {
         } else {
             try {
                 throw new RoleNotFoundException("Role 'CUSTOMER' not found");
-            }
-            catch (RoleNotFoundException e) {
+            } catch (RoleNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
     @Transactional
     @Override
     public UserUpdatedRolesResponseDto updateUserRole(Long id, String roleName) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                "User with passed id - " + id + " doesn't exist." ));
+                "User with passed id - " + id + " doesn't exist."));
         Optional<Role> newRole = roleRepository.findByName(Role.RoleName.MANAGER);
-          if (newRole.isPresent()){
+        if (newRole.isPresent()) {
             user.addRole(newRole.get());
             user = userRepository.save(user);
         } else {

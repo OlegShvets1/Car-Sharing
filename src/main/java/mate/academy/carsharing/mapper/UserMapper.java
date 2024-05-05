@@ -1,20 +1,18 @@
 package mate.academy.carsharing.mapper;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import mate.academy.carsharing.config.MapperConfig;
 import mate.academy.carsharing.dto.user.UserRegistrationRequestDto;
 import mate.academy.carsharing.dto.user.UserResponseDto;
 import mate.academy.carsharing.dto.user.UserUpdateProfileRequestDto;
 import mate.academy.carsharing.dto.user.UserUpdatedRolesResponseDto;
-import mate.academy.carsharing.model.Role;
 import mate.academy.carsharing.model.User;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(imports = MapperConfig.class, componentModel = "spring")
 public interface UserMapper {

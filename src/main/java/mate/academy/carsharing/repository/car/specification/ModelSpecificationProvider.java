@@ -1,10 +1,10 @@
 package mate.academy.carsharing.repository.car.specification;
 
+import java.util.List;
 import mate.academy.carsharing.model.Car;
 import mate.academy.carsharing.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 @Component
 public class ModelSpecificationProvider implements SpecificationProvider<Car> {

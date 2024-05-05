@@ -1,6 +1,7 @@
 package mate.academy.carsharing.service.car;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.carsharing.dto.car.CarResponseDto;
 import mate.academy.carsharing.dto.car.CarSearchParametersDto;
@@ -10,18 +11,16 @@ import mate.academy.carsharing.mapper.CarMapper;
 import mate.academy.carsharing.model.Car;
 import mate.academy.carsharing.repository.car.CarRepository;
 import mate.academy.carsharing.repository.car.specification.CarSpecificationBuilder;
-import mate.academy.carsharing.repository.user.UserRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
-        private final CarMapper carMapper;
+    private final CarMapper carMapper;
     private final CarSpecificationBuilder carSpecificationBuilder;
 
     @Override
@@ -62,9 +61,9 @@ public class CarServiceImpl implements CarService {
         return carRepository.findById(id)
                 .map(carMapper::mapToResponseDto)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Сar with id - " + id + " not available" ));
+                        () -> new EntityNotFoundException("Сar with id - " + id
+                        + " not available"));
     }
-
 
     @Override
     public List<CarResponseDto> search(CarSearchParametersDto searchParameters, Pageable pageable) {

@@ -1,15 +1,15 @@
 package mate.academy.carsharing.controller;
 
-import mate.academy.carsharing.dto.car.CarResponseDto;
-import mate.academy.carsharing.dto.car.CarSearchParametersDto;
-import mate.academy.carsharing.dto.car.UpdateCarDto;
-import mate.academy.carsharing.dto.car.CreateCarRequestDto;
-import mate.academy.carsharing.service.car.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import mate.academy.carsharing.dto.car.CarResponseDto;
+import mate.academy.carsharing.dto.car.CarSearchParametersDto;
+import mate.academy.carsharing.dto.car.CreateCarRequestDto;
+import mate.academy.carsharing.dto.car.UpdateCarDto;
+import mate.academy.carsharing.service.car.CarService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -85,6 +85,4 @@ public class CarsController {
             Pageable pageable) {
         return carService.search(parametersDto, pageable);
     }
-
-
 }
