@@ -71,6 +71,20 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidRequestException.class)
+    protected ResponseEntity<Object> handleInvalidRequestException(
+            InvalidRequestException ex, WebRequest request) {
+        Map<String, Object> body = getBody(ex, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CarRentalException.class)
+    protected ResponseEntity<Object> handleCarRentalException(
+            CarRentalException ex, WebRequest request) {
+        Map<String, Object> body = getBody(ex, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
     private Map<String, Object> getBody(Exception ex, HttpStatus status) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
