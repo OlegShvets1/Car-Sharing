@@ -11,4 +11,5 @@ public class RentalResponseDto {
     private String actualReturnDate;
     private Long carId;
     private Long userId;
+    private boolean isActive;
 }
