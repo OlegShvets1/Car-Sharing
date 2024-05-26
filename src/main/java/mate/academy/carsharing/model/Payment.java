@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Builder
 @Entity
 @Data
 @Table(name = "payments")
 @SQLDelete(sql = "UPDATE payments SET is_deleted = TRUE WHERE id = ?")
 @Where(clause = "is_deleted = FALSE")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -81,7 +81,8 @@ public class Payment {
 
     public enum Status {
         PENDING,
-        PAID;
+        PAID,
+        CANCELED;
 
         public static Status fromString(String value) {
             for (Status status: Status.values()) {
