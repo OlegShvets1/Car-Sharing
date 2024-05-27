@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,10 +103,27 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public void cancel(User user) {
-        Payment payment = updatePaymentStatus(Payment.Status.CANCELED, user.getId());
-        paymentRepository.save(payment);
-        Car car = updateInventory(Rental.builder().build());
-        carRepository.save(car);
+        List<Rental> rentals = rentalRepository.findAllByUserId(user.getId());
+        if (rentals.isEmpty()) {
+            throw new EntityNotFoundException(
+                    "No rentals found for user with id - " + user.getId());
+        }
+        Rental latestRental = rentals.get(rentals.size() - 1);
+
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(latestRental.getRentalDate().atStartOfDay())) {
+            Payment payment = updatePaymentStatus(Payment.Status.CANCELED, user.getId());
+            paymentRepository.save(payment);
+
+            Car car = carRepository.findById(latestRental.getCarId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Can't find a car with id - " + latestRental.getCarId()));
+            car = updateInventory(latestRental);
+            carRepository.save(car);
+        } else {
+            throw new IllegalStateException(
+                    "Cannot cancel the payment because the rental period has already started");
+        }
     }
 
     @Override

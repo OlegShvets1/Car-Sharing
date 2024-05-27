@@ -31,7 +31,7 @@ public class PaymentsController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a payment",
             description = "Endpoint for creating a payment for a pending rental")
-    public PaymentResponseDto create(Authentication authentication)
+    public PaymentResponseDto createPayment(Authentication authentication)
             throws StripeException, MalformedURLException {
         return paymentService.create(getUser(authentication));
     }
@@ -73,7 +73,7 @@ public class PaymentsController {
     @Operation(summary = "Get user's payments",
             description = "Endpoint for getting pointed user's payments."
                     + " Allowed for managers only")
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping
     public List<PaymentResponseDto> getUserPayments(
             @RequestParam(name = "user_id") Long userId,

@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: "ENUM ('PENDING', 'PAID')"
+                  type: "ENUM ('PENDING', 'PAID', 'CANCELED')"
                   constraints:
                     nullable: false
               - column:

@@ -69,28 +69,11 @@ public class Payment {
     public enum Type {
         PAYMENT,
         FINE;
-        public static Type fromString(String value) {
-            for (Type type : Type.values()) {
-                if (type.name().equalsIgnoreCase(value)) {
-                    return type;
-                }
-            }
-            throw new IllegalArgumentException("Unknown enum value: " + value);
-        }
     }
 
     public enum Status {
         PENDING,
         PAID,
         CANCELED;
-
-        public static Status fromString(String value) {
-            for (Status status: Status.values()) {
-                if (status.name().equalsIgnoreCase(value)) {
-                    return status;
-                }
-            }
-            throw new IllegalArgumentException("Unknown enum value: " + value);
-        }
     }
 }
