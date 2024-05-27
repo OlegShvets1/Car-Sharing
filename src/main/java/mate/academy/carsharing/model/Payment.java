@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Builder
 @Entity
 @Data
 @Table(name = "payments")
 @SQLDelete(sql = "UPDATE payments SET is_deleted = TRUE WHERE id = ?")
 @Where(clause = "is_deleted = FALSE")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -69,27 +69,11 @@ public class Payment {
     public enum Type {
         PAYMENT,
         FINE;
-        public static Type fromString(String value) {
-            for (Type type : Type.values()) {
-                if (type.name().equalsIgnoreCase(value)) {
-                    return type;
-                }
-            }
-            throw new IllegalArgumentException("Unknown enum value: " + value);
-        }
     }
 
     public enum Status {
         PENDING,
-        PAID;
-
-        public static Status fromString(String value) {
-            for (Status status: Status.values()) {
-                if (status.name().equalsIgnoreCase(value)) {
-                    return status;
-                }
-            }
-            throw new IllegalArgumentException("Unknown enum value: " + value);
-        }
+        PAID,
+        CANCELED;
     }
 }
