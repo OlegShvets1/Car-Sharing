@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>mate.academy</groupId>
     <artifactId>car-sharing</artifactId>
@@ -134,11 +134,11 @@
             <artifactId>stripe-java</artifactId>
             <version>24.0.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.telegram</groupId>-->
-<!--            <artifactId>telegrambots</artifactId>-->
-<!--            <version>${telegram.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>${telegram.version}</version>
+        </dependency>
     </dependencies>
 
 <!--    <dependencyManagement>-->
