@@ -53,5 +53,4 @@ public class Rental {
 
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
-
 }

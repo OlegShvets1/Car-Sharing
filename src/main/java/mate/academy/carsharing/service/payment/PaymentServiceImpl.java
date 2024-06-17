@@ -12,6 +12,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.carsharing.dto.payment.PaymentResponseDto;
@@ -158,11 +159,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private Payment updatePaymentStatus(Payment.Status status, Long userId) {
-        Payment payment = paymentRepository
-                .findByStatusAndUserId(Payment.Status.PENDING, userId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Can't find user's payment"));
-        payment.setStatus(status);
-        return payment;
+        Optional<Payment> optionalPayment = paymentRepository
+                .findByStatusAndUserId(Payment.Status.PENDING, userId);
+        if (optionalPayment.isPresent()) {
+            Payment payment = optionalPayment.get();
+            payment.setStatus(status);
+            return paymentRepository.save(payment);
+        } else {
+            // Handle the case where payment is not found
+            return null;
+        }
     }
 }

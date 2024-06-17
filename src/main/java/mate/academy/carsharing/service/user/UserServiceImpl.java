@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto register(UserRegistrationRequestDto requestDto) {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
-            throw new RegistrationException("User with email- "
+            throw new RegistrationException("User with email - "
                     + requestDto.getEmail() + " already exist");
         }
         Optional<Role> customerRoleOptional = roleRepository.findByName(Role.RoleName.CUSTOMER);

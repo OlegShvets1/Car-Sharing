@@ -27,20 +27,20 @@ class CarRepositoryTest {
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:database/cars/remove-cars-from-cars-table.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findAvailableCars_Pagination_ReturnsExpectedResults() {
+    void findAvailableCars_Ok() {
 
         Car teslaModelS = createCar(
-                1L, "Tesla",
+                4L, "Tesla",
                 "Model S",
                 Car.Type.UNIVERSAL,
-                BigDecimal.valueOf(229.00)
+                BigDecimal.valueOf(229)
         );
 
         Car toyotaRav = createCar(
-                2L, "Toyota",
+                5L, "Toyota",
                 "RAV-4",
                 Car.Type.SUV,
-                BigDecimal.valueOf(199.00));
+                BigDecimal.valueOf(199));
 
         List<Car> expectedList = List.of(teslaModelS, toyotaRav);
 
