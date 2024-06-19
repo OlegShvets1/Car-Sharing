@@ -30,14 +30,14 @@ class CarRepositoryTest {
     void findAvailableCars_Ok() {
 
         Car teslaModelS = createCar(
-                4L, "Tesla",
+                1L, "Tesla",
                 "Model S",
                 Car.Type.UNIVERSAL,
                 BigDecimal.valueOf(229)
         );
 
         Car toyotaRav = createCar(
-                5L, "Toyota",
+                2L, "Toyota",
                 "RAV-4",
                 Car.Type.SUV,
                 BigDecimal.valueOf(199));
