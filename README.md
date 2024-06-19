@@ -50,6 +50,6 @@
   - Stripe API
 
 ## Architecture Diagram
-![image](https:
+![image](https:https://github.com/OlegShvets1/Car-Sharing/blob/master/architecture.png
 
   
