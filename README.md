@@ -87,6 +87,13 @@
 - `GET: /payments/cancel` - Cancel endpoint for payment.
 - `POST: /payments` - The endpoint for creating payment session using Stripe API, it will send notification on creation.
 
+## Roles 
+
+ Only 2 user roles are available in this application: 'USER role' and 'MANAGER role'.
+ The user is given the opportunity to perform the following actions: search for a car, display a car by ID, rent a car, etc.
+ However, a user with the USER role cannot delete cars from the database or update them. (Only a user with the role of MANAGER can perform these manipulations)
+
+
 ## How to run a project on your mashine?
 1. Download [☕Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) and [🐋Docker](https://www.docker.com/products/docker-desktop/) and install them on your PC.
 2. Clone the repository:
