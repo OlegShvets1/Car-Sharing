@@ -81,3 +81,17 @@
 - `GET: /payments/success` - Success endpoint for payment, it will send notification on success.
 - `GET: /payments/cancel` - Cancel endpoint for payment.
 - `POST: /payments` - The endpoint for creating payment session using Stripe API, it will send notification on creation.
+
+## Run Project On Your Machine
+1. Download [Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) and [Docker](https://www.docker.com/products/docker-desktop/) and install them on your PC.
+2. Clone the repository:
+   - Open a terminal and paste the following link: "https://github.com/OlegShvets1/Car-Sharing"
+3. Create an .env file with the appropriate variables(The .env.sample file with all the necessary variables will be available to you when you complete the previous point).
+4. Create a project:
+    - Open the project in the IDE.
+    - Enter all required variables in application.properties.
+    - Open a terminal and execute the command: "mvn clean package".
+5. Use Docker Compose:
+    - Open a terminal and execute the commands:
+    - "docker compose build" 
+    - "docker compose up"
