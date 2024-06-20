@@ -60,24 +60,24 @@
 ### 🚗 CarsController: Handles requests for car CRUD operations.
 - `GET: /cars` - The endpoint for retrieving all avaliable cars.
 - `GET: /cars/{id}` - The endpoint for searching a specific car by ID.
-- `POST: /cars` - The endpoint for creating a new  car.(Available Administrator Only)
-- `PUT: /cars/{id}` - The endpoint for updating car information.(Available Administrator Only)
-- `DELETE: /cars/{id}` - The endpoint for deleting car.(Available Administrator Only)
+- `POST: /cars` - The endpoint for creating a new  car. (Available Administrator Only)
+- `PUT: /cars/{id}` - The endpoint for updating car information. (Available Administrator Only)
+- `DELETE: /cars/{id}` - The endpoint for deleting car. (Available Administrator Only)
 
 ### 👦👧 UsersController: Handles requests for user operations.
 - `GET: /users/me` - The endpoint for retrieving user`s information.
 - `PATCH: /users/me` - The endpoint for updating user`s information.
-- `PUT: /users/{id}/role?role=` - The endpoint for updating user's role.(Available Administrator Only)
+- `PUT: /users/{id}/role?role=` - The endpoint for updating user's role. (Available Administrator Only)
 
 ### 🛒 RentalsController: Handles requests for rental operations.
 - `GET: /rentals/my` - The endpoint for retrieving all rentals by its owner.
-- `GET: /rentals?userId=&is_active=` - The endpoint for retrieving all rentals by user and activity.(Available Administrator Only)
-- `GET: /rentals/{id}` - The endpoint for retrieving a specific rental by ID.(Available Administrator Only)
+- `GET: /rentals?userId=&is_active=` - The endpoint for retrieving all rentals by user and activity. (Available Administrator Only)
+- `GET: /rentals/{id}` - The endpoint for retrieving a specific rental by ID. (Available Administrator Only)
 - `POST: /rentals` - The endpoint for creating a new rental, it will send notification on creation.
 - `POST: /rentals/{id}/return` - The endpoint for returning rental.
 
 ###  💸 PaymentsController: Handles requests for payment operations.
-- `GET: /payments?user_id=` - The endpoint for retrieving all payments by user ID.(Available Administrator Only)
+- `GET: /payments?user_id=` - The endpoint for retrieving all payments by user ID. (Available Administrator Only)
 - `GET: /payments/success` - Success endpoint for payment, it will send notification on success.
 - `GET: /payments/cancel` - Cancel endpoint for payment.
 - `POST: /payments` - The endpoint for creating payment session using Stripe API, it will send notification on creation.
