@@ -49,8 +49,13 @@
   - Telegram API
   - Stripe API
 
-## Architecture Diagram
+## Project structure
 ![1GIF](architecture.png)
+
+  This Spring Boot application has the most common structure with the following **main layers**:
+- repository (for working with the database).
+- service (for implementing business logic).
+- controller (for receiving customer requests and receiving answers to them).
   
 ## 🏔️ Endpoints
 ### 🔑 AuthenticationController: Handles registration and login requests, supporting both Basic and JWT authentication.
@@ -82,8 +87,8 @@
 - `GET: /payments/cancel` - Cancel endpoint for payment.
 - `POST: /payments` - The endpoint for creating payment session using Stripe API, it will send notification on creation.
 
-## Run Project On Your Machine
-1. Download [Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) and [Docker](https://www.docker.com/products/docker-desktop/) and install them on your PC.
+## How to run a project on your mashine?
+1. Download [☕Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) and [🐋Docker](https://www.docker.com/products/docker-desktop/) and install them on your PC.
 2. Clone the repository:
    - Open a terminal and paste the following link: "https://github.com/OlegShvets1/Car-Sharing"
 3. Create an .env file with the appropriate variables(The .env.sample file with all the necessary variables will be available to you when you complete the previous point).
@@ -92,6 +97,6 @@
     - Enter all required variables in application.properties.
     - Open a terminal and execute the command: "mvn clean package".
 5. Use Docker Compose:
-    - Open a terminal and execute the commands:
+     Open a terminal and execute the commands:
     - "docker compose build" 
     - "docker compose up"
