@@ -23,6 +23,7 @@ import mate.academy.carsharing.model.Rental;
 import mate.academy.carsharing.model.User;
 import mate.academy.carsharing.repository.car.CarRepository;
 import mate.academy.carsharing.repository.rental.RentalRepository;
+import mate.academy.carsharing.service.notification.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,6 +36,9 @@ import org.springframework.data.domain.Pageable;
 class RentalServiceImplTest {
     @Mock
     private RentalRepository rentalRepository;
+
+    @Mock
+    private NotificationService notificationService;
 
     @Mock
     private RentalMapper rentalMapper;
@@ -73,6 +77,8 @@ class RentalServiceImplTest {
         RentalResponseDto actual = rentalService.addRental(user, requestDto);
 
         assertEquals(expected, actual);
+
+        verify(notificationService).rentalCreationNotification(expected);
     }
 
     @Test

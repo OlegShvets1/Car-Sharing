@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-@Component
 @Profile("!test")
+@Component
 @RequiredArgsConstructor
 public class BotRegister {
     private final NotificationTelegramBot notificationTelegramBot;
@@ -20,7 +20,7 @@ public class BotRegister {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(notificationTelegramBot);
         } catch (TelegramApiException e) {
-            System.err.println("Error registering bot: " + e.getMessage());
+            System.err.println("An error occurred while registering the bot: " + e.getMessage());
         }
     }
 }

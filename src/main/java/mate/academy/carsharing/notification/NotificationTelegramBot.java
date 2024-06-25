@@ -1,6 +1,9 @@
 package mate.academy.carsharing.notification;
 
+import jakarta.transaction.Transactional;
+import java.util.List;
 import mate.academy.carsharing.exception.TelegramBotMessageException;
+import mate.academy.carsharing.model.TelegramUserInfo;
 import mate.academy.carsharing.repository.telegram.TelegramUserRepository;
 import mate.academy.carsharing.service.telegrambot.TelegramUserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,14 +37,25 @@ public class NotificationTelegramBot extends TelegramLongPollingBot {
         return botName;
     }
 
+    @Transactional
     @Override
     public void onUpdateReceived(Update update) {
         String chatId = String.valueOf(update.getMessage().getChatId());
-        System.out.println(telegramUserRepository.findByChatId(chatId));
-        if (telegramUserRepository.findByChatId(chatId).isEmpty()
-                && update.hasMessage() && update.getMessage().hasText()) {
+        String messageText = update.getMessage().getText();
+
+        System.out.println("Received message from chatId - " + chatId + " is: " + "''"
+                + messageText + "''");
+
+        List<TelegramUserInfo> userInfoList = telegramUserRepository.findByChatIdWithRoles(chatId);
+
+        if (!userInfoList.isEmpty()) {
+            telegramUserRepository.deleteByChatId(chatId);
+        }
+
+        if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText();
             if (message.equals("/start")) {
+                // Відправляємо стартове повідомлення і додаємо новий запис
                 startingMessage(chatId);
             } else {
                 validateUser(message, chatId);
@@ -51,22 +65,25 @@ public class NotificationTelegramBot extends TelegramLongPollingBot {
 
     private void startingMessage(String chatId) {
         String message = """
-                This bot will send you notifications on:
-                - Rentals creation
-                - Payments creation
-                - Successful payments
-                - Overdue rentals
+                This bot will inform you about:
+                * Rentals creation
+                * Payments creation
+                * Successful payments
+                * Overdue rentals
 
-                Please, enter your email to authorize""";
+                Please, enter your e-mail to authorize""";
         sendMessage(message, chatId);
+        TelegramUserInfo newUserInfo = new TelegramUserInfo();
+        newUserInfo.setChatId(chatId);
+        telegramUserRepository.save(newUserInfo);
     }
 
     private void validateUser(String email, String chatId) {
         try {
             telegramUserService.save(email, chatId);
-            sendMessage("Authorized successfully!", chatId);
+            sendMessage("Congratulations, the authorization was successful!", chatId);
         } catch (Exception e) {
-            sendMessage("Email is invalid! Please, try again.", chatId);
+            sendMessage("To start authorization, enter '/start'. ", chatId);
         }
     }
 
