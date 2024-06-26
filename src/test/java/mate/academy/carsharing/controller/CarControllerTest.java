@@ -140,7 +140,7 @@ public class CarControllerTest {
     @Test
     void getCarById_ValidId_Ok() throws Exception {
         CarResponseDto expected = new CarResponseDto(
-                1L,
+                2L,
                 "Model S",
                 "Tesla",
                 UNIVERSAL,
@@ -148,7 +148,7 @@ public class CarControllerTest {
                 BigDecimal.valueOf(229)
         );
 
-        MvcResult result = mockMvc.perform(get("/cars/1")
+        MvcResult result = mockMvc.perform(get("/cars/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
