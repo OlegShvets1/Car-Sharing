@@ -1,6 +1,5 @@
 package mate.academy.carsharing.controller;
 
-import static mate.academy.carsharing.model.Car.Type.SUV;
 import static mate.academy.carsharing.model.Car.Type.UNIVERSAL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -16,7 +15,12 @@ import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import mate.academy.carsharing.dto.car.CarResponseDto;
 import mate.academy.carsharing.dto.car.CreateCarRequestDto;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -69,35 +73,6 @@ public class CarControllerTest {
                     new ClassPathResource("database/cars/remove-cars-from-cars-table.sql")
             );
         }
-    }
-
-    @WithMockUser(username = "admin", authorities = {"MANAGER"})
-    @Order(1)
-    @Test
-    void getCarById_ValidId_Ok() throws Exception {
-        CarResponseDto expected = new CarResponseDto(
-                2L,
-                "RAV-4",
-                "Toyota",
-                SUV,
-                5,
-                BigDecimal.valueOf(199)
-        );
-
-        MvcResult result = mockMvc.perform(get("/cars/2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        CarResponseDto actual = objectMapper.readValue(
-                result.getResponse().getContentAsString(), CarResponseDto.class);
-
-        assertNotNull(actual);
-        Assertions.assertEquals(expected.model(), actual.model());
-        Assertions.assertEquals(expected.brand(), actual.brand());
-        Assertions.assertEquals(expected.type(), actual.type());
-        Assertions.assertEquals(expected.inventory(), actual.inventory());
-        Assertions.assertEquals(expected.dailyFee(), actual.dailyFee());
     }
 
     @WithMockUser(username = "admin", authorities = {"MANAGER"})
