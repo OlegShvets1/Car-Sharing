@@ -1,5 +1,6 @@
 package mate.academy.carsharing.controller;
 
+import static mate.academy.carsharing.model.Car.Type.SUV;
 import static mate.academy.carsharing.model.Car.Type.UNIVERSAL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -75,15 +76,15 @@ public class CarControllerTest {
     @Test
     void getCarById_ValidId_Ok() throws Exception {
         CarResponseDto expected = new CarResponseDto(
-                1L,
-                "Model S",
-                "Tesla",
-                UNIVERSAL,
+                2L,
+                "RAV-4",
+                "Toyota",
+                SUV,
                 5,
-                BigDecimal.valueOf(229)
+                BigDecimal.valueOf(199)
         );
 
-        MvcResult result = mockMvc.perform(get("/cars/1")
+        MvcResult result = mockMvc.perform(get("/cars/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
