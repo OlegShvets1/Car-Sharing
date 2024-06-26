@@ -77,6 +77,35 @@ public class CarControllerTest {
     }
 
     @WithMockUser(username = "admin", authorities = {"MANAGER"})
+    @Order(1)
+    @Test
+    void getCarById_ValidId_Ok() throws Exception {
+        CarResponseDto expected = new CarResponseDto(
+                1L,
+                "Model S",
+                "Tesla",
+                UNIVERSAL,
+                5,
+                BigDecimal.valueOf(229)
+        );
+
+        MvcResult result = mockMvc.perform(get("/cars/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        CarResponseDto actual = objectMapper.readValue(
+                result.getResponse().getContentAsString(), CarResponseDto.class);
+
+        assertNotNull(actual);
+        assertEquals(expected.model(), actual.model());
+        assertEquals(expected.brand(), actual.brand());
+        assertEquals(expected.type(), actual.type());
+        assertEquals(expected.inventory(), actual.inventory());
+        assertEquals(expected.dailyFee(), actual.dailyFee());
+    }
+
+    @WithMockUser(username = "admin", authorities = {"MANAGER"})
     @Order(2)
     @Test
     void createCar_ValidRequestDto_Ok() throws Exception {
@@ -134,35 +163,6 @@ public class CarControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
-    }
-
-    @WithMockUser(username = "admin", authorities = {"MANAGER"})
-    @Order(1)
-    @Test
-    void getCarById_ValidId_Ok() throws Exception {
-        CarResponseDto expected = new CarResponseDto(
-                1L,
-                "Model S",
-                "Tesla",
-                UNIVERSAL,
-                5,
-                BigDecimal.valueOf(229)
-        );
-
-        MvcResult result = mockMvc.perform(get("/cars/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        CarResponseDto actual = objectMapper.readValue(
-                result.getResponse().getContentAsString(), CarResponseDto.class);
-
-        assertNotNull(actual);
-        assertEquals(expected.model(), actual.model());
-        assertEquals(expected.brand(), actual.brand());
-        assertEquals(expected.type(), actual.type());
-        assertEquals(expected.inventory(), actual.inventory());
-        assertEquals(expected.dailyFee(), actual.dailyFee());
     }
 
     @WithMockUser(username = "admin", authorities = {"MANAGER"})
