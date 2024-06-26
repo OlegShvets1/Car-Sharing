@@ -1,7 +1,6 @@
 package mate.academy.carsharing.controller;
 
 import static mate.academy.carsharing.model.Car.Type.UNIVERSAL;
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,12 +15,7 @@ import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import mate.academy.carsharing.dto.car.CarResponseDto;
 import mate.academy.carsharing.dto.car.CreateCarRequestDto;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -98,11 +92,11 @@ public class CarControllerTest {
                 result.getResponse().getContentAsString(), CarResponseDto.class);
 
         assertNotNull(actual);
-        assertEquals(expected.model(), actual.model());
-        assertEquals(expected.brand(), actual.brand());
-        assertEquals(expected.type(), actual.type());
-        assertEquals(expected.inventory(), actual.inventory());
-        assertEquals(expected.dailyFee(), actual.dailyFee());
+        Assertions.assertEquals(expected.model(), actual.model());
+        Assertions.assertEquals(expected.brand(), actual.brand());
+        Assertions.assertEquals(expected.type(), actual.type());
+        Assertions.assertEquals(expected.inventory(), actual.inventory());
+        Assertions.assertEquals(expected.dailyFee(), actual.dailyFee());
     }
 
     @WithMockUser(username = "admin", authorities = {"MANAGER"})
