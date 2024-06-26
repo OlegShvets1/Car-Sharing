@@ -1,6 +1,7 @@
 package mate.academy.carsharing.controller;
 
 import static mate.academy.carsharing.model.Car.Type.UNIVERSAL;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -140,7 +141,7 @@ public class CarControllerTest {
     @Test
     void getCarById_ValidId_Ok() throws Exception {
         CarResponseDto expected = new CarResponseDto(
-                2L,
+                1L,
                 "Model S",
                 "Tesla",
                 UNIVERSAL,
@@ -148,7 +149,7 @@ public class CarControllerTest {
                 BigDecimal.valueOf(229)
         );
 
-        MvcResult result = mockMvc.perform(get("/cars/2")
+        MvcResult result = mockMvc.perform(get("/cars/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -157,7 +158,11 @@ public class CarControllerTest {
                 result.getResponse().getContentAsString(), CarResponseDto.class);
 
         assertNotNull(actual);
-        EqualsBuilder.reflectionEquals(expected, actual);
+        assertEquals(expected.model(), actual.model());
+        assertEquals(expected.brand(), actual.brand());
+        assertEquals(expected.type(), actual.type());
+        assertEquals(expected.inventory(), actual.inventory());
+        assertEquals(expected.dailyFee(), actual.dailyFee());
     }
 
     @WithMockUser(username = "admin", authorities = {"MANAGER"})
