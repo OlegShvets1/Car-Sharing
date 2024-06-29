@@ -93,7 +93,7 @@
 
  Only 2 user roles are available in this application: 'USER role' and 'MANAGER role'.
  The user is given the opportunity to perform the following actions: search for a car, display a car by ID, rent a car, etc.
- However, a user with the USER role cannot delete cars from the database or update them. (Only a user with the role of MANAGER can perform these manipulations)
+ However, a user with the 'USER role' cannot delete cars from the database or update them. (Only a user with the 'MANAGER role' can perform these manipulations)
 
 
 ## How to run a project on your mashine?
