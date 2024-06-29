@@ -24,6 +24,7 @@ import mate.academy.carsharing.model.User;
 import mate.academy.carsharing.repository.car.CarRepository;
 import mate.academy.carsharing.repository.payment.PaymentRepository;
 import mate.academy.carsharing.repository.rental.RentalRepository;
+import mate.academy.carsharing.service.notification.NotificationService;
 import mate.academy.carsharing.service.payment.strategy.PaymentStrategy;
 import mate.academy.carsharing.service.stripe.StripeService;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
     private static final int ONE = 1;
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final NotificationService notificationService;
     private final RentalRepository rentalRepository;
     private final CarRepository carRepository;
     private final StripeService stripeService;
@@ -89,6 +91,8 @@ public class PaymentServiceImpl implements PaymentService {
                          RoundingMode.HALF_UP),
                 rental, session, user);
         paymentRepository.save(payment);
+        notificationService.paymentCreationNotification(
+                paymentMapper.toResponseDto(payment), user.getId());
         return paymentMapper.toResponseDto(payment);
     }
 
@@ -97,7 +101,8 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponseDto success(User user) {
         Payment payment = updatePaymentStatus(Payment.Status.PAID, user.getId());
         paymentRepository.save(payment);
-
+        notificationService.successfulPaymentNotification(
+                paymentMapper.toResponseDto(payment), user.getId());
         return paymentMapper.toResponseDto(payment);
     }
 
@@ -166,7 +171,6 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setStatus(status);
             return paymentRepository.save(payment);
         } else {
-            // Handle the case where payment is not found
             return null;
         }
     }

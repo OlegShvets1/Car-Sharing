@@ -24,7 +24,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
 
     @Override
     public TelegramUserInfo findByChatId(String chatId) {
-        return telegramUserRepository.findByChatId(chatId)
+        return telegramUserRepository.findByChatId(chatId).stream().findAny()
                 .orElseThrow(() -> new EntityNotFoundException("Can't find telegram info "
                         + "about user by chat id: " + chatId));
     }

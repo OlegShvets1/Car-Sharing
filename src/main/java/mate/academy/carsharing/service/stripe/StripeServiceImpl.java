@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 public class StripeServiceImpl implements StripeService {
     private static final String USD = "usd";
     private static final long DEFAULT_QUANTITY = 1L;
-    private static final String SUCCESS_URL = "http://localhost:8088/api/payments/success";
-    private static final String CANCEL_URL = "http://localhost:8088/api/payments/cancel";
+    private static final String SUCCESS_URL = "http://localhost:8081/payments/success";
+    private static final String CANCEL_URL = "http://localhost:8081/payments/cancel";
 
     public Session createSession(Long price, String unitName) throws StripeException {
         SessionCreateParams params = SessionCreateParams.builder()
