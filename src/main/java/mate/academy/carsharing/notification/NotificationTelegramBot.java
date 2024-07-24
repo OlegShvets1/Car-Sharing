@@ -55,7 +55,6 @@ public class NotificationTelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText();
             if (message.equals("/start")) {
-                // Відправляємо стартове повідомлення і додаємо новий запис
                 startingMessage(chatId);
             } else {
                 validateUser(message, chatId);

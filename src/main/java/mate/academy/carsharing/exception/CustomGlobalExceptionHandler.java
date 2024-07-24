@@ -21,6 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String TIMESTAMP_KEY = "timestamp";
+    private static final String STATUS_KEY = "status";
+    private static final String ERRORS_KEY = "errors";
+    private static final String MESSAGE_KEY = "message";
+
     @ResponseBody
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -30,24 +35,25 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             WebRequest request
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
+        body.put(TIMESTAMP_KEY, LocalDateTime.now());
+        body.put(STATUS_KEY, HttpStatus.BAD_REQUEST);
         List<String> errors = ex.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(this::getErrorMessage)
                 .toList();
-        body.put("errors", errors);
+        body.put(ERRORS_KEY, errors);
         return new ResponseEntity<>(body, headers, status);
     }
 
     private String getErrorMessage(ObjectError e) {
-        if (e instanceof FieldError) {
-            String field = ((FieldError) e).getField();
-            String message = e.getDefaultMessage();
-            return field + " " + message;
+        if (e instanceof FieldError fieldError) {
+            String field = fieldError.getField();
+            String message = fieldError.getDefaultMessage();
+            return String.format("Field '%s': %s", field, message);
+        } else {
+            return e.getDefaultMessage();
         }
-        return e.getDefaultMessage();
     }
 
     @ExceptionHandler(RegistrationException.class)
@@ -87,9 +93,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     private Map<String, Object> getBody(Exception ex, HttpStatus status) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status);
-        body.put("message", ex.getMessage());
+        body.put(TIMESTAMP_KEY, LocalDateTime.now());
+        body.put(STATUS_KEY, status);
+        body.put(MESSAGE_KEY, ex.getMessage());
         return body;
     }
 }

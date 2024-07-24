@@ -2,13 +2,13 @@ package mate.academy.carsharing.service.user;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
-import javax.management.relation.RoleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mate.academy.carsharing.dto.user.UserRegistrationRequestDto;
 import mate.academy.carsharing.dto.user.UserResponseDto;
 import mate.academy.carsharing.dto.user.UserUpdateProfileRequestDto;
 import mate.academy.carsharing.dto.user.UserUpdatedRolesResponseDto;
 import mate.academy.carsharing.exception.RegistrationException;
+import mate.academy.carsharing.exception.RoleNotFoundException;
 import mate.academy.carsharing.mapper.UserMapper;
 import mate.academy.carsharing.model.Role;
 import mate.academy.carsharing.model.User;
@@ -31,23 +31,21 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(UserRegistrationRequestDto requestDto) {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RegistrationException("User with email - "
-                    + requestDto.getEmail() + " already exist");
+                    + requestDto.getEmail() + " already exists");
         }
+
         Optional<Role> customerRoleOptional = roleRepository.findByName(Role.RoleName.CUSTOMER);
-        if (customerRoleOptional.isPresent()) {
-            Role customerRole = customerRoleOptional.get();
-            User newUser = userMapper.mapToModel(requestDto);
-            newUser.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-            newUser.addRole(customerRole);
-            User savedUser = userRepository.save(newUser);
-            return userMapper.mapToDto(savedUser);
-        } else {
-            try {
-                throw new RoleNotFoundException("Role 'CUSTOMER' not found");
-            } catch (RoleNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
+        Role customerRole = customerRoleOptional
+                .orElseThrow(() -> new RoleNotFoundException("Role 'CUSTOMER' not found"));
+
+        User newUser = userMapper.mapToModel(requestDto);
+        newUser.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        newUser.addRole(customerRole);
+
+        User savedUser = userRepository.save(newUser);
+
+        return userMapper.mapToDto(savedUser);
     }
 
     @Transactional
