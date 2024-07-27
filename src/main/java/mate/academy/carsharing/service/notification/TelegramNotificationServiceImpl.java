@@ -17,33 +17,45 @@ public class TelegramNotificationServiceImpl implements NotificationService {
     @Override
     public void rentalCreationNotification(RentalResponseDto rental) {
         Long userId = rental.getUserId();
-
-        String message = "* CONGRATULATIONS, THE NEW RENTAL WAS SUCCESSFULLY CREATED *\n"
-                + "\nRental ID - " + rental.getId()
-                + "\nUser ID - " + userId
-                + "\nCar ID - " + rental.getCarId()
-                + "\nRental Date - " + rental.getRentalDate()
-                + "\nReturn Date - " + rental.getRequiredReturnDate();
+        String message = """
+        Rental ID - %d
+        User ID - %s
+        Car ID - %d
+        Rental Date - %s
+        Return Date - %s
+                """.formatted(rental.getId(), userId, rental.getCarId(),
+                rental.getRentalDate(), rental.getRequiredReturnDate());
         telegramBot.sendMessage(message, getChatIdByUser(userId));
     }
 
     @Override
     public void paymentCreationNotification(PaymentResponseDto paymentResponseDto, Long userId) {
-        String message = "* CONGRATULATIONS, THE NEW PAYMENT WAS SUCCESSFULLY CREATED *\n"
-                + "\nPayment ID - " + paymentResponseDto.getId()
-                + "\nFor rental with id - " + paymentResponseDto.getRentalId()
-                + "\nStatus - " + paymentResponseDto.getStatus()
-                + "\nType - " + paymentResponseDto.getType()
-                + "\nLink to pay - " + paymentResponseDto.getSessionUrl()
-                + "\nAmount To Pay - " + paymentResponseDto.getAmountToPay();
+        String message = """
+        * CONGRATULATIONS, THE NEW PAYMENT WAS SUCCESSFULLY CREATED *
+        
+        Payment ID - %s
+        For rental with id - %s
+        Status - %s
+        Type - %s
+        Link to pay - %s
+        Amount To Pay - %s
+                """.formatted(
+                paymentResponseDto.getId(),
+                paymentResponseDto.getRentalId(),
+                paymentResponseDto.getStatus(),
+                paymentResponseDto.getType(),
+                paymentResponseDto.getSessionUrl(),
+                paymentResponseDto.getAmountToPay()
+        );
         telegramBot.sendMessage(message, getChatIdByUser(userId));
     }
 
     @Override
     public void successfulPaymentNotification(PaymentResponseDto paymentResponseDto, Long userId) {
-        String message = "* CONGRATULATIONS, PAYMENT WITH ID - "
-                + paymentResponseDto.getId() + " PAID SUCCESSFULLY! "
-                + "THANK YOU FOR USING OUR CAR_SHARING SERVICE. *";
+        String message = """
+        * CONGRATULATIONS, PAYMENT WITH ID - %s PAID SUCCESSFULLY! 
+        THANK YOU FOR USING OUR CAR_SHARING SERVICE. *
+                """.formatted(paymentResponseDto.getId());
         telegramBot.sendMessage(message, getChatIdByUser(userId));
     }
 

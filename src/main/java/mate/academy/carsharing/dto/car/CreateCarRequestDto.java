@@ -1,7 +1,7 @@
 package mate.academy.carsharing.dto.car;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public record CreateCarRequestDto(
@@ -11,9 +11,9 @@ public record CreateCarRequestDto(
         String brand,
         @NotBlank
         String type,
-        @Min(0)
+        @Positive
         Integer inventory,
-        @Min(0)
+        @Positive
         BigDecimal dailyFee
 ) {
 }

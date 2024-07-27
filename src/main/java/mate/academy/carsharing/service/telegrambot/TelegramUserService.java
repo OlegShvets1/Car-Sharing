@@ -1,9 +1,7 @@
 package mate.academy.carsharing.service.telegrambot;
 
 import mate.academy.carsharing.model.TelegramUserInfo;
-import org.springframework.stereotype.Component;
 
-@Component
 public interface TelegramUserService {
 
     TelegramUserInfo save(String email, String chatId);

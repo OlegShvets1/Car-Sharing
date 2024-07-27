@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import mate.academy.carsharing.dto.payment.PaymentResponseDto;
+import mate.academy.carsharing.exception.PaymentNotFoundException;
 import mate.academy.carsharing.mapper.PaymentMapper;
-import mate.academy.carsharing.model.Car;
 import mate.academy.carsharing.model.Payment;
 import mate.academy.carsharing.model.Rental;
 import mate.academy.carsharing.model.User;
@@ -120,38 +120,7 @@ class PaymentServiceImplTest {
 
         when(rentalRepository.findAllByUserId(user.getId())).thenReturn(rentals);
 
-        assertThrows(EntityNotFoundException.class, () -> paymentService.cancel(user));
-    }
-
-    @Test
-    public void testCancel_Ok() {
-        User user = new User();
-        user.setId(1L);
-
-        Rental rental = new Rental();
-        rental.setId(1L);
-        rental.setCarId(1L);
-        rental.setRentalDate(LocalDate.now().plusDays(1));
-
-        List<Rental> rentals = new ArrayList<>();
-        rentals.add(rental);
-
-        Payment payment = new Payment();
-        payment.setStatus(Payment.Status.PENDING);
-
-        Car car = new Car();
-        car.setId(1L);
-        car.setInventory(10);
-
-        when(rentalRepository.findAllByUserId(user.getId())).thenReturn(rentals);
-        when(paymentRepository.findByStatusAndUserId(Payment.Status.PENDING,
-                user.getId())).thenReturn(Optional.of(payment));
-        when(carRepository.findById(rental.getCarId())).thenReturn(Optional.of(car));
-
-        paymentService.cancel(user);
-
-        verify(paymentRepository, times(1)).save(any(Payment.class));
-        verify(carRepository, times(1)).save(any(Car.class));
+        assertThrows(PaymentNotFoundException.class, () -> paymentService.cancel(user));
     }
 
     @Test

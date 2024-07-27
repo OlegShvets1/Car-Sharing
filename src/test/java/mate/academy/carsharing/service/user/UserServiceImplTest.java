@@ -10,16 +10,17 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.Set;
-import javax.management.relation.RoleNotFoundException;
 import mate.academy.carsharing.dto.user.UserRegistrationRequestDto;
 import mate.academy.carsharing.dto.user.UserResponseDto;
 import mate.academy.carsharing.dto.user.UserUpdateProfileRequestDto;
 import mate.academy.carsharing.dto.user.UserUpdatedRolesResponseDto;
 import mate.academy.carsharing.exception.RegistrationException;
+import mate.academy.carsharing.exception.RoleNotFoundException;
 import mate.academy.carsharing.mapper.UserMapper;
 import mate.academy.carsharing.model.Role;
 import mate.academy.carsharing.model.User;
@@ -101,7 +102,7 @@ class UserServiceImplTest {
         RegistrationException exception = assertThrows(RegistrationException.class,
                 () -> userService.register(requestDto));
 
-        String expected = "User with email - " + user.getEmail() + " already exist";
+        String expected = "User with email - " + user.getEmail() + " already exists";
         String actual = exception.getMessage();
 
         assertEquals(expected, actual);
@@ -162,8 +163,12 @@ class UserServiceImplTest {
             userService.updateUserRole(userId, roleName);
         });
 
-        assertTrue(exception.getCause() instanceof RoleNotFoundException);
-        assertEquals("One or more roles not found", exception.getCause().getMessage());
+        Throwable cause = exception.getCause();
+        assertNotNull("Exception cause should not be null", cause);
+
+        assertEquals(RoleNotFoundException.class, cause.getClass());
+
+        assertEquals("One or more roles not found", cause.getMessage());
     }
 
     @Test

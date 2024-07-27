@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +41,7 @@ public class Car {
     private Type type;
 
     @Column(name = "inventory", nullable = false)
-    @Min(0)
+    @Positive
     private Integer inventory;
 
     @Column(name = "daily_fee", nullable = false)

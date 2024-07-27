@@ -26,7 +26,8 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             final Object secondValue = secondField.get(value);
             return Objects.equals(firstValue, secondValue);
         } catch (final Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to compare values due to an exception: "
+                    + e.getMessage(), e);
         }
     }
 }
